@@ -1,3 +1,3 @@
 # boriTest
 
-Verifica cuan boricua eres tu vocabulario!!!!!
+Verifica cuan boricua es tu vocabulario!!!!!
