@@ -1,0 +1,9 @@
+/* same pattern for new backgrounds */
+.background-1
+{
+	background-image: url("background1.jpg");
+	background-position: center;
+	background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
