@@ -1,17 +1,23 @@
 {
-  "name": "oviweb",
+  "name": "boritest",
   "version": "1.0.0",
-  "description": "",
+  "author": "Carlos Oviedo",
+  "description": "Verifica cuan boricua es tu vocabulario!!!!!",
+  "license": "GPL-2.0",
+
   "main": "server.js",
+
   "dependencies": {
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+
+  "devDependencies": {
+    "standard": "*"
   },
-  "author": "",
-  "license": "ISC"
+
+  "scripts": {
+    "start": "nodejs server.js"
+  }
+
 }

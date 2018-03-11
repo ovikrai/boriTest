@@ -46,7 +46,8 @@ app.get('/boritest', (req, res) => {
   // total numer of words
   fileLen = inputText.trim().replace(regex, ' ').split(' ').length
 
- // extra ality
+ // Extra information for future development 
+ //
  // total numer of Characters (including trails)
  // var totalChars = inputText.length
  // total numer of Characters (excluding trails)
@@ -62,11 +63,11 @@ app.get('/boritest', (req, res) => {
 
   boriPercent = (totalCounters / fileLen) * 100
 
-  console.log(boriPercent)
-  console.log(wordsCounters)
-  console.log(totalCounters)
-  console.log(inputText)
-  console.log(fileLen)
+  console.log('Percent of boricua:' + boriPercent + '\n')
+  console.log('Words Count:' + wordsCounters + '\n')
+  console.log('Total of Counters:' + totalCounters + '\n')
+  console.log('The text input:' + inputText + '\n')
+  console.log('File size:' + fileLen + '\n')
 
   // clasificaciones de tipo de boricua
   var boriType = ''
