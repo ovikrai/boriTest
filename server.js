@@ -6,6 +6,8 @@ var palabras = require('./public/palabras.js')
 
 var app = express()
 
+var port = process.env.PORT || 5000
+
 app.engine('.hbs', exphbs({defaultLayout: 'main', extname: '.hbs'})) // set main layout
 app.set('view engine', '.hbs')
 
@@ -114,6 +116,6 @@ app.use((req, res) => {
 })
 
 // the port that is served
-app.listen(3000, () => {
-  console.log('Server listening on: http://127.0.0.1:3000')
+app.listen(port, () => {
+  console.log(`Server listening on ${port}`)
 })
