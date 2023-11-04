@@ -1,18 +1,16 @@
-'use strict'
+const express = require('express')
+const exphbs = require('express-handlebars')
+const palabras = require('./public/palabras.js')
 
-var express = require('express')
-var exphbs = require('express-handlebars')
-var palabras = require('./public/palabras.js')
+const app = express()
+const port = process.env.PORT || 5000
+const config = { defaultLayout: 'main', extname: '.hbs' }
 
-var app = express()
-
-var port = process.env.PORT || 5000
-
-app.engine('.hbs', exphbs({defaultLayout: 'main', extname: '.hbs'})) // set main layout
+app.engine('.hbs', exphbs(config)) // set main layout
 app.set('view engine', '.hbs')
 
 // variables in the backside
-var placeText = 'Enter A text'
+const placeText = 'Enter A text'
 
 // to serve static files
 app.use('/public', express.static('public'))
@@ -26,40 +24,41 @@ app.get('/', (req, res) => {
 
 app.get('/boritest', (req, res) => {
   // input del usuario
-  var inputText = req.query.userInput
-  // palabras y counter declaration
-  var boriWords = palabras.getWords
-  var wordsCounters = []
+  let inputText = req.query.userInput
 
-  for (var i = 0; i < boriWords.length; i++) {
-  // patron de palabras de que macheen
-    if (inputText.match(boriWords[i]) === null) {
-      wordsCounters[i] = 0
-    } else {
-      wordsCounters[i] = inputText.match(boriWords[i]).length
+  console.log('Input Text:' + inputText + '\n')
+
+  // palabras y counter declaration
+  const boriWords = palabras.getWords
+  let wordsCounters = []
+
+  for (let i = 0; i < boriWords.length; i++) {
+    wordsCounters[i] = 0
+  }
+
+  let words = inputText.split(/\W+/).filter(function (token) {
+    token = token.toLowerCase()
+    return token.length >= 2
+  })
+
+  console.log('Tokenized Words: ' + words + '\n')
+
+  for (let i = 0; i < words.length; i++) {
+    for (let j = 0; j < boriWords.length; j++) {
+      // Check if words match
+      if (words[i] === boriWords[j]) {
+        wordsCounters[j] = wordsCounters[j] + 1
+      }
     }
   }
 
   // format file to count all words
-  var boriPercent = 0
-  var fileLen = 0
+  let boriPercent = 0
+  let fileLen = words.length
 
-  var regex = /\s+/gi
-  // total numer of words
-  fileLen = inputText.trim().replace(regex, ' ').split(' ').length
-
- // Extra information for future development 
- //
- // total numer of Characters (including trails)
- // var totalChars = inputText.length
- // total numer of Characters (excluding trails)
- // var charCount = inputText.trim().length
- // total numer of Characters (excluding all spaces)
- // var charCountNoSpace = inputText.replace(regex, '').length
- // suma todos los elemtos de wordsCounters
-
-  var totalCounters = 0
-  for (var j = 0; j < wordsCounters.length; j++) {
+  // suma todos los elementos de wordsCounters
+  let totalCounters = 0
+  for (let j = 0; j < wordsCounters.length; j++) {
     totalCounters += wordsCounters[j]
   }
 
@@ -72,40 +71,45 @@ app.get('/boritest', (req, res) => {
   console.log('File size:' + fileLen + '\n')
 
   // clasificaciones de tipo de boricua
-  var boriType = ''
-  var boriDesc = ''
-  var fotoPerc = ''
+  let response
   if ((boriPercent >= 0) && (boriPercent <= 25)) {
-    boriType = 'Visitante'
-    boriDesc = `Si es que vives en Boriken, al parecer no sales de tu casa. Estas hecho un trili.`
-    fotoPerc = 'bandera25'
+    response = {
+      resultado1: Math.floor(boriPercent),
+      resultado2: 'Visitante',
+      resultado3: `Si es que vives en Boriken, al parecer no sales de tu casa. Estas hecho un trili.`,
+      bandera: 'bandera25'
+    }
   }
 
   if ((boriPercent >= 26) && (boriPercent <= 50)) {
-    boriType = 'Residente'
-    boriDesc = 'No eres un trili, pero no estas rankeao y te falta mucho por aprender.'
-    fotoPerc = 'bandera50'
+    response = {
+      resultado1: Math.floor(boriPercent),
+      resultado2: 'Residente',
+      resultado3: 'No eres un trili, pero no estas rankeao y te falta mucho por aprender.',
+      bandera: 'bandera50'
+    }
   }
 
   if ((boriPercent >= 51) && (boriPercent <= 75)) {
-    boriType = 'Jibaro Soy'
-    boriDesc = 'Estas afuego. Se nota que sales a chinchorear todos los fines de semana. Pero todavia te falta mas calle.'
-    fotoPerc = 'bandera75'
+    response = {
+      resultado1: Math.floor(boriPercent),
+      resultado2: 'Jibaro Soy',
+      resultado3: 'Estas afuego. Se nota que sales a chinchorear todos los fines de semana. Pero todavia te falta mas calle.',
+      bandera: 'bandera75'
+    }
   }
 
   if ((boriPercent >= 76) && (boriPercent <= 100)) {
-    boriType = 'Boricua Bestial'
-    boriDesc = 'Te sabes todos los chinchorros y todas las lechoneras de Guavate. Eres una enciclopedia del turismo interno.'
-    fotoPerc = 'bandera100'
+    response = {
+      resultado1: Math.floor(boriPercent),
+      resultado2: 'Boricua Bestial',
+      resultado3: 'Te sabes todos los chinchorros y todas las lechoneras de Guavate. Eres una enciclopedia del turismo interno.',
+      bandera: 'bandera100'
+    }
   }
 
-  // presentation of the data
-  res.render('presentation', {
-    resultado1: Math.floor(boriPercent),
-    resultado2: boriType,
-    resultado3: boriDesc,
-    bandera: fotoPerc
-  })
+  // presentation
+  res.render('presentation', response)
 })
 
 // errors
