@@ -22,9 +22,13 @@ app.get('/', (req, res) => {
   })
 })
 
+app.get('/about', (req, res) => {
+  res.render('about')
+})
+
 app.get('/boritest', (req, res) => {
   // input del usuario
-  let inputText = req.query.userInput
+  let inputText = req.query.userInput.toLowerCase()
 
   console.log('Input Text:' + inputText + '\n')
 
@@ -37,7 +41,7 @@ app.get('/boritest', (req, res) => {
   }
 
   let words = inputText.split(/\W+/).filter(function (token) {
-    token = token.toLowerCase()
+    // token = token.toLowerCase()
     return token.length >= 2
   })
 
