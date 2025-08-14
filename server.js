@@ -3,7 +3,7 @@ const exphbs = require('express-handlebars')
 const palabras = require('./public/palabras.js')
 
 const app = express()
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5001
 const config = { defaultLayout: 'main', extname: '.hbs' }
 
 app.engine('.hbs', exphbs(config)) // set main layout
