@@ -59,4 +59,5 @@ jobs:
           app-name: 'boritest'
           slot-name: 'Production'
           package: .
+
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_021F761E71924985A1B00509E5A0D55F }}
